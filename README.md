@@ -52,19 +52,15 @@ graph TD
       AwsBase105 --> AwsBase106
       AwsBase106{How many concurrent users do you expect to have at peak time?}
       AwsBase106 --> AwsBase107
-      AwsBase107{How many requests per second will the most active endpoint receive?}
-      AwsBase107 --> AwsBase108
       AwsBase108{Please describe all end users of this project:}
       AwsBase108 --> AwsBase109
       AwsBase109{How are you proving your Business Continuity and Disaster Recovery Plan?}
-      AwsBase109 --> AwsBase110
-      AwsBase110{Does your application store, process, and/or transmit P* data?}
-      AwsBase110 --> AwsData000
+      AwsBase109 --> AwsData000
 
       %% AWS Data
       AwsData000{"Do you handle, process or store data in your service?"}
       AwsData000 -->|Yes| AwsData400
-      AwsData000 ---->|No| AwsAppDev000
+      AwsData000 ---->|No| AwsWeb000
       AwsData400{"How many records, rows, or documents will be stored or processed for the largest entity, resource or collection?"}
       AwsData400 --> AwsData401
       AwsData401{"How many durable copies (including backups or replicas) do you maintain?"}
@@ -72,14 +68,40 @@ graph TD
       AwsData402{"For what purposes is data moved from Prod to Non-Prod environments?"}
       AwsData402 --> AwsData403
       AwsData403{"Does anything in the project depend on Persistent Volumes?"}
-      AwsData403 --> AwsAppDev000
+      AwsData403 --> AwsData404
+      AwsData404{Does your application store, process, and/or transmit P* data?}
+      AwsData404 --> AwsData405
+      AwsData405{"Sensitive or P*I Data must be application layer encrypted, please choose which method you are using to do so"}
+      AwsData405 --> AwsData406
+      AwsData406{"Are all datastores compliant with all appropriate data retention policies?"}
+      AwsData406 --> AwsData407
+      AwsData407{"Is there a process to securely delete PII data upon request?"}
+      AwsData407 --> AwsData408
+      AwsData408{"Is there a process in place to delete data that exceeds retention periods on at least a quarterly basis?"}
+      AwsData408 --> AwsData409
+      AwsData409{"How many records, rows, or documents will be stored or processed for the largest entity, resource or collection?"}
+      AwsData409 --> AwsWeb000
+
+
+
+      %% AWS Web Application
+      AwsWeb000{"Does your service expose any UI or endpoints?"}
+      AwsWeb000 -->|Yes| AwsWeb100
+      AwsWeb000 ---->|No| AwsAppDev000
+      AwsWeb100{How many requests per second will the most active endpoint receive?}
+      AwsWeb100 --> AwsWeb101
+      AwsWeb101{"Which of the following are used to protect any interface exposed outside of your AWS Accounts?"}
+      AwsWeb101 --> AwsWeb102
+      AwsWeb102{"Select all domains this application will run on:"}
+      AwsWeb102 --> AwsWeb103
+      AwsWeb103{"Web applications are utilizing the following CDNs for static assets: (check all that apply)"}
+      AwsWeb103 --> AwsAppDev000
+
 
       %% AWS Applicaton Development
-      AwsAppDev000{"Do you handle, process or store data in your service?"}
-      AwsAppDev000 -->|Yes| AwsAppDev200
+      AwsAppDev000{"YET ANOTHER GATING QUESTION - Do you have any App Dev concers?"}
+      AwsAppDev000 -->|Yes| AwsAppDev201
       AwsAppDev000 ---->|No| AwsArch000
-      AwsAppDev200{"Web applications are utilizing the following CDNs for static assets: (check all that apply)"}
-      AwsAppDev200 --> AwsAppDev201
       AwsAppDev201{"What CI/CD software are you using?"}
       AwsAppDev201 --> AwsAppDev202
       AwsAppDev202{"Are all GitHub repositories utilized for this project configured to require peer approval?"}
@@ -92,8 +114,6 @@ graph TD
       AwsAppDev205 --> AwsAppDev206
       AwsAppDev206{"What images are you using for your instances?"}
       AwsAppDev206 --> AwsAppDev207
-      AwsAppDev207{"Select all domains this application will run on:"}
-      AwsAppDev207 --> AwsAppDev208
       AwsAppDev208{"Select all authentication systems the project is using:"}
       AwsAppDev208 --> AwsAppDev209
       AwsAppDev209{"Do all tools hosted in this account adhere to the Tool Security Standard in full?"}
@@ -102,7 +122,7 @@ graph TD
       %% AWS Architecture
       AwsArch000{"NEED GATING QUESTION - Do you have any Architecture concerns?"}
       AwsArch000 -->|Yes| AwsArch300
-      AwsArch000 ---->|No| AwsOps000
+      AwsArch000 ---->|No| AwsOps000      
       AwsArch300{"Which methods would be used in this project to double/half capacity?"}
       AwsArch300 --> AwsArch301
       AwsArch301{"What are the traits that make up your service?"}
@@ -112,7 +132,7 @@ graph TD
       AwsOps000{"NEED GATING QUESTION - Do you have any Operations concerns?"}
       AwsOps000 -->|Yes| AwsOps500
       AwsOps000 ---->|No| AwsPriv000
-      AwsOps500{"Are all logs, monitors, and alerts configured in compliance with 'GoDaddy Monitoring Standard', and confirmed to be operating appropriately?"}
+      AwsOps500{"Are all logs, monitors, and alerts configured in compliance with "GoDaddy Monitoring Standard", and confirmed to be operating appropriately?"}
       AwsOps500 --> AwsOps501
       AwsOps501{"Is your application integrated with the SPAQ/Rigor platform to capture application metrics?"}
       AwsOps501 --> AwsOps502
@@ -130,13 +150,7 @@ graph TD
       %% Privacy and Compliance
       AwsPriv000{"NEED GATING QUESTION - Do you have Privacy or Compliance concerns?"}
       AwsPriv000 -->|Yes| AwsPriv600
-      AwsPriv000 ---->|No| AwsSec000      
-      AwsPriv600{"Are all datastores compliant with all appropriate data retention policies?"}
-      AwsPriv600 --> AwsPriv601
-      AwsPriv601{"Is there a process to securely delete PII data upon request?"}
-      AwsPriv601 --> AwsPriv602
-      AwsPriv602{"Is there a process in place to delete data that exceeds retention periods on at least a quarterly basis?"}
-      AwsPriv602 --> AwsPriv603
+      AwsPriv000 ---->|No| AwsSec000
       AwsPriv603{"Does this project utilize a separate account for payment processing?"}
       AwsPriv603 --> AwsPriv604
       AwsPriv604{"Which of the following strategies do you apply for least privilege and zero trust?"}
@@ -161,7 +175,7 @@ graph TD
       AwsPriv613 --> AwsSec000
 
       %% Security
-      AwsSec000{"NEED GATING QUESTION - Do you have any Security Concerns?"}
+      AwsSec000{"I NEED GATING QUESTION - Do you have any Security Concerns?"}
       AwsSec000 -->|Yes| AwsSec700
       AwsSec000 ---->|No| AwsML000
       AwsSec700{"What is your authentication model for accessing your database?"}
@@ -170,12 +184,8 @@ graph TD
       AwsSec701 --> AwsSec702
       AwsSec702{"How are you monitoring for unauthorized transfer of sensitive and/or p*i information across the network? (you should evaluate your application log metadata for indications of threat actor abuse of your application)"}
       AwsSec702 --> AwsSec703
-      AwsSec703{"Which of the following are used to protect any interface exposed outside of your AWS Accounts?"}
-      AwsSec703 --> AwsSec704
       AwsSec704{"What is your rotation strategy for all compute resources?"}
       AwsSec704 --> AwsSec705
-      AwsSec705{"Sensitive or P*I Data must be application layer encrypted, please choose which method you are using to do so"}
-      AwsSec705 --> AwsSec706
       AwsSec706{"Will all unnecessary scripts, drivers, subsystems, library, dependencies, etc. be removed from systems in this project?"}
       AwsSec706 --> AwsSec707
       AwsSec707{"Are you compliant with the Service Authentication Patterns Standard?"}
@@ -197,4 +207,3 @@ graph TD
       AwsML806{"What is your test coverage of model usage?"}
     end
 ```
-
