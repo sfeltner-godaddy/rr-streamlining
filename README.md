@@ -113,7 +113,7 @@ graph TD
       AwsAppDev205{"How do you encrypt your transit protocols? (If other, provide what protocols and what traffic is unencrypted)"}
       AwsAppDev205 --> AwsAppDev206
       AwsAppDev206{"What images are you using for your instances?"}
-      AwsAppDev206 --> AwsAppDev207
+      AwsAppDev206 --> AwsAppDev208
       AwsAppDev208{"Select all authentication systems the project is using:"}
       AwsAppDev208 --> AwsAppDev209
       AwsAppDev209{"Do all tools hosted in this account adhere to the Tool Security Standard in full?"}
@@ -151,8 +151,8 @@ graph TD
       AwsPriv000{"NEED GATING QUESTION - Do you have Privacy or Compliance concerns?"}
       AwsPriv000 -->|Yes| AwsPriv600
       AwsPriv000 ---->|No| AwsSec000
-      AwsPriv603{"Does this project utilize a separate account for payment processing?"}
-      AwsPriv603 --> AwsPriv604
+      AwsPriv600{"Does this project utilize a separate account for payment processing?"}
+      AwsPriv600 --> AwsPriv604
       AwsPriv604{"Which of the following strategies do you apply for least privilege and zero trust?"}
       AwsPriv604 --> AwsPriv605
       AwsPriv605{"Is the system configured to issue a log entry when an account is added to or removed from any group assigned admin privileges?"}
@@ -183,9 +183,9 @@ graph TD
       AwsSec701{"Is security logging applied to all systems and will it include application security logging for your production services prior to taking production traffic?"}
       AwsSec701 --> AwsSec702
       AwsSec702{"How are you monitoring for unauthorized transfer of sensitive and/or p*i information across the network? (you should evaluate your application log metadata for indications of threat actor abuse of your application)"}
-      AwsSec702 --> AwsSec703
+      AwsSec702 --> AwsSec704
       AwsSec704{"What is your rotation strategy for all compute resources?"}
-      AwsSec704 --> AwsSec705
+      AwsSec704 --> AwsSec706
       AwsSec706{"Will all unnecessary scripts, drivers, subsystems, library, dependencies, etc. be removed from systems in this project?"}
       AwsSec706 --> AwsSec707
       AwsSec707{"Are you compliant with the Service Authentication Patterns Standard?"}
