@@ -51,7 +51,7 @@ graph TD
       AwsBase105{What is the expected maximum burst of any service in these accounts?}
       AwsBase105 --> AwsBase106
       AwsBase106{How many concurrent users do you expect to have at peak time?}
-      AwsBase106 --> AwsBase107
+      AwsBase106 --> AwsBase108
       AwsBase108{Please describe all end users of this project:}
       AwsBase108 --> AwsBase109
       AwsBase109{How are you proving your Business Continuity and Disaster Recovery Plan?}
