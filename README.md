@@ -168,7 +168,7 @@ graph TD
       AwsSec700 --> AwsSec701
       AwsSec701{"Is security logging applied to all systems and will it include application security logging for your production services prior to taking production traffic?"}
       AwsSec701 --> AwsSec702
-      AwsSec702{"How are you monitoring for unauthorized transfer of sensitive and/or p*i information across the network? (you should evaluate your application log metadata for indications of threat actor abuse of your application)"
+      AwsSec702{"How are you monitoring for unauthorized transfer of sensitive and/or p*i information across the network? (you should evaluate your application log metadata for indications of threat actor abuse of your application)"}
       AwsSec702 --> AwsSec703
       AwsSec703{"Which of the following are used to protect any interface exposed outside of your AWS Accounts?"}
       AwsSec703 --> AwsSec704
