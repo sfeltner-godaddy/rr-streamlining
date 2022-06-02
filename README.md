@@ -97,12 +97,12 @@ graph TD
       AwsAppDev208{"Select all authentication systems the project is using:"}
       AwsAppDev208 --> AwsAppDev209
       AwsAppDev209{"Do all tools hosted in this account adhere to the Tool Security Standard in full?"}
-      AwsAppDev209 --> AwsArch0000
+      AwsAppDev209 --> AwsArch000
 
       %% AWS Architecture
       AwsArch000{"NEED GATING QUESTION - Do you have any Architecture concerns?"}
       AwsArch000 -->|Yes| AwsArch300
-      AwsArch000 ---->|No| AwsOps000      
+      AwsArch000 ---->|No| AwsOps000
       AwsArch300{"Which methods would be used in this project to double/half capacity?"}
       AwsArch300 --> AwsArch301
       AwsArch301{"What are the traits that make up your service?"}
@@ -111,7 +111,7 @@ graph TD
       %% Operations
       AwsOps000{"NEED GATING QUESTION - Do you have any Operations concerns?"}
       AwsOps000 -->|Yes| AwsOps500
-      AwsOps000 ---->|No| AwsPriv000      
+      AwsOps000 ---->|No| AwsPriv000
       AwsOps500{"Are all logs, monitors, and alerts configured in compliance with 'GoDaddy Monitoring Standard', and confirmed to be operating appropriately?"}
       AwsOps500 --> AwsOps501
       AwsOps501{"Is your application integrated with the SPAQ/Rigor platform to capture application metrics?"}
