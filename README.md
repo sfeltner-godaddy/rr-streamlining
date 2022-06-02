@@ -132,7 +132,7 @@ graph TD
       AwsOps000{"NEED GATING QUESTION - Do you have any Operations concerns?"}
       AwsOps000 -->|Yes| AwsOps500
       AwsOps000 ---->|No| AwsPriv000
-      AwsOps500{"Are all logs, monitors, and alerts configured in compliance with "GoDaddy Monitoring Standard", and confirmed to be operating appropriately?"}
+      AwsOps500{"Are all logs, monitors, and alerts configured in compliance with 'GoDaddy Monitoring Standard', and confirmed to be operating appropriately?"}
       AwsOps500 --> AwsOps501
       AwsOps501{"Is your application integrated with the SPAQ/Rigor platform to capture application metrics?"}
       AwsOps501 --> AwsOps502
