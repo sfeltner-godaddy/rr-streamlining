@@ -41,43 +41,41 @@ graph TD
       %% - Serverless?
       %%
       %% AWS Base Questions - No gating question.
-      %% DELETE AwsBase100{What is the expected production date for this project?}
-      %% DELETE AwsBase100 --> AwsBase101
       AwsBase101{Does your application adhere to all must haves in the Must Haves Should Dos?}
-      AwsBase101 --> AwsBase102  %% Further review required
-      AwsBase102{Which regions will this project utilize?}
-      AwsBase102 --> AwsBase103  %% Gating questions on Service Tier 0
+      AwsBase101 --> AwsBase103  %% Further review required
       AwsBase103{Which environments/accounts is this project expected to utilize?}
-      AwsBase103 --> AwsBase104  %% Keep it!  Keep it base
-      AwsBase104{What is the expected maximum growth rate per month of any service in these accounts?}
-      AwsBase104 --> AwsBase105  %% Gate with Service Tier 0 - combine these 3
-questions into one
-      AwsBase105{What is the expected maximum burst of any service in these accounts?}
-      AwsBase105 --> AwsBase106
-      AwsBase106{How many concurrent users do you expect to have at peak time?}
-      AwsBase106 --> AwsBase108
+      AwsBase103 --> AwsBase108  %% Keep it!  Keep it base
       AwsBase108{Please describe all end users of this project:}
-      AwsBase108 --> AwsBase109  %% Gate this with "Are there services im this account utilized by employees?""
-      AwsBase109{How are you proving your Business Continuity and Disaster Recovery Plan?}
-      AwsBase109 --> AwsData000  %% Gating questions on Service Tier 0/1
+      AwsBase108 --> AwsBase109 %% Gate this with "Are there services im this account utilized by employees?""
+      AwsBase109{"Is everything you are using in ADOPT on TechRadar?"}
+      AwsBase109 --> AwsST01000  %% Maybe base/general
+
+      %% AWS - Service Tier 1 or 0
+      AwsST01000{"Is your service a Service Tier 0 or 1?"}
+      AwsST01000 -->|Yes| AwsST01001
+      AwsST01000 -->|No| AwsData000
+      AwsST01001{Which regions will this project utilize?}
+      AwsST01001 --> AwsST01002  %% Gating questions on Service Tier 0
+      AwsST01002{What is the expected maximum growth rate per month of any service in these accounts?}
+      AwsST01002 --> AwsST01003  %% Gate with Service Tier 0 - combine these 3 questions into 1
+      AwsST01003{What is the expected maximum burst of any service in these accounts?}
+      AwsST01003 --> AwsST01004
+      AwsST01004{How many concurrent users do you expect to have at peak time?}
+      AwsST01004 --> AwsST01005
+      AwsST01005{How are you proving your Business Continuity and Disaster Recovery Plan?}
+      AwsST01005 --> AwsData000  %% Gating questions on Service Tier 0/1
 
       %% AWS Data
       AwsData000{"Do you handle, process or store data in your service?"}
-      AwsData000 -->|Yes| AwsData400
+      AwsData000 -->|Yes| AwsData402
       AwsData000 ---->|No| AwsWeb000
-      AwsData400{"How many records, rows, or documents will be stored or processed for the largest entity, resource or collection?"}
-      AwsData400 --> AwsData401   %% DELETE
-      AwsData401{"How many durable copies (including backups or replicas) do you maintain?"}
-      AwsData401 --> AwsData402   %% DELETE - covered in BCDR plan 
       AwsData402{"For what purposes is data moved from Prod to Non-Prod environments?"}
-      AwsData402 --> AwsData403   %% Keep it
-      AwsData403{"Does anything in the project depend on Persistent Volumes?"}
-      AwsData403 --> AwsData404   %% DELETE
+      AwsData402 --> AwsData404   %% Keep it
       AwsData404{"Are all datastores compliant with all appropriate data retention policies?"}
       AwsData404 --> AwsData405   %% Ask Brittany
       AwsData405{"Is there a process in place to delete data that exceeds retention periods on at least a quarterly basis?"}
       AwsData405 --> AwsData406   %% Ask Brittany
-      AwsData40600{"What is your authentication model for accessing your database?"}
+      AwsData406{"What is your authentication model for accessing your database?"}
       AwsData406 --> AwsData407   %% Keep it
       AwsData407{Does your application store, process, and/or transmit P* data?}
       AwsData407 -->|Yes| AwsData408
@@ -85,7 +83,7 @@ questions into one
       AwsData408{"Sensitive or P*I Data must be application layer encrypted, please choose which method you are using to do so"}
       AwsData408 --> AwsData409  %% Keep it
       AwsData409{"Is there a process to securely delete PII data upon request?"}
-      AwsData408 --> AwsWeb000   %% Keep it
+      AwsData409 --> AwsWeb000   %% Keep it
 
 
 
@@ -94,35 +92,21 @@ questions into one
       AwsWeb000 -->|Yes| AwsWeb100
       AwsWeb000 ---->|No| AwsAppDev000
       AwsWeb100{How many requests per second will the most active endpoint receive?}
-      AwsWeb100 --> AwsWeb101  %% DELETE all scling related questions and defer
-to artifacts
+      AwsWeb100 --> AwsWeb101  %% DELETE all scaling related questions and defer to artifacts
       AwsWeb101{"Which of the following are used to protect any interface exposed outside of your AWS Accounts?"}
       AwsWeb101 --> AwsWeb102  %% Keep it
       AwsWeb102{"Select all domains this application will run on:"}
       AwsWeb102 --> AwsWeb103  %% Keep it
       AwsWeb103{"Web applications are utilizing the following CDNs for static assets: (check all that apply)"}
-      AwsWeb103 --> AwsAppDev000  %% Keep for now - further review.  Maybe move
-to on-prem and acq
+      AwsWeb103 --> AwsAppDev000  %% Keep for now - further review.  Maybe move to on-prem and acq
 
 
       %% AWS Applicaton Development
       AwsAppDev000{"YET ANOTHER GATING QUESTION - Do you have any App Dev concers?"}
       AwsAppDev000 -->|Yes| AwsAppDev201
       AwsAppDev000 ---->|No| AwsArch000
-      AwsAppDev201{"What CI/CD software are you using?"}
-      AwsAppDev201 --> AwsAppDev202  %% DELETE it
-      AwsAppDev202{"Are all GitHub repositories utilized for this project configured to require peer approval?"}
-      AwsAppDev202 --> AwsAppDev203  %% DELETE it
-      AwsAppDev203{"Have all components been constructed in compliance with GoDaddy Software Development Policy?"}
-      AwsAppDev203 --> AwsAppDev204  %% DELETE it
-      AwsAppDev204{"Is everything you are using in ADOPT on TechRadar?"}
-      AwsAppDev204 --> AwsAppDev205  %% Maybe base/general
-      AwsAppDev205{"How do you encrypt your transit protocols? (If other, provide what protocols and what traffic is unencrypted)"}
-      AwsAppDev205 --> AwsAppDev206  %% DELETE and defer to artifacts
-      AwsAppDev206{"What images are you using for your instances?"}
-      AwsAppDev206 --> AwsAppDev208  %% DELETE it - covered by CirrusScan
-      AwsAppDev208{"Select all authentication systems the project is using:"}
-      AwsAppDev208 --> AwsAppDev209  %% Keep, but gate
+      AwsAppDev201{"Select all authentication systems the project is using:"}
+      AwsAppDev201 --> AwsAppDev209  %% Keep, but gate
       AwsAppDev209{"Do all tools hosted in this account adhere to the Tool Security Standard in full?"}
       AwsAppDev209 --> AwsArch000  %% Keep but gate
 
