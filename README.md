@@ -41,8 +41,8 @@ graph TD
       %% - Serverless?
       %%
       %% AWS Base Questions - No gating question.
-      AwsBase101{Does your application adhere to all must haves in the Must Haves Should Dos?}
-      AwsBase101 --> AwsBase103  %% Further review required
+      AwsBase100{Does your application adhere to all must haves in the Must Haves Should Dos?}
+      AwsBase100 --> AwsBase103  %% Further review required
       AwsBase103{Which environments/accounts is this project expected to utilize?}
       AwsBase103 --> AwsBase108  %% Keep it!  Keep it base
       AwsBase108{Please describe all end users of this project:}
