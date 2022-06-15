@@ -42,13 +42,34 @@ graph TD
       %%
       %% AWS Base Questions - No gating question.
       AwsBase100{Does your application adhere to all must haves in the Must Haves Should Dos?}
-      AwsBase100 --> AwsBase103  %% Further review required
-      AwsBase103{Which environments/accounts is this project expected to utilize?}
-      AwsBase103 --> AwsBase108  %% Keep it!  Keep it base
-      AwsBase108{Please describe all end users of this project:}
-      AwsBase108 --> AwsBase109 %% Gate this with "Are there services im this account utilized by employees?""
-      AwsBase109{"Is everything you are using in ADOPT on TechRadar?"}
-      AwsBase109 --> AwsST01000  %% Maybe base/general
+      AwsBase100 --> AwsBase101  %% Further review required
+      AwsBase101{Which environments/accounts is this project expected to utilize?}
+      AwsBase101 --> AwsBase102  %% Keep it!  Keep it base
+      AwsBase102{Please describe all end users of this project:}
+      AwsBase102 --> AwsBase103 %% Gate this with "Are there services im this account utilized by employees?""
+      AwsBase103{"Is everything you are using in ADOPT on TechRadar?"}
+      AwsBase103 --> AwsBase104  %% Maybe base/general
+      AwsBase104{"Is security logging applied to all systems and will it include application security logging for your production services prior to taking production traffic?"}
+      AwsBase104 --> AwsBase105  %% Keep - base
+      AwsBase105{"Which of the following strategies do you apply for least privilege and zero trust?"}
+      AwsBase105 --> AwsBase106  %% Keep
+      AwsBase106{"Will there be any admin access to any production resource beyond Break-Glass Procedure?"}
+      AwsBase106 --> AwsBase107  %% Keep
+      AwsBase107{"How often do you upgrade your software/packages/libs or self-managed applications?"}
+      AwsBase107 --> AwsBase108  %% Keep
+      AwsBase108{"Are all logs, monitors, and alerts configured in compliance with 'GoDaddy Monitoring Standard', and confirmed to be operating appropriately?"}
+      AwsBase108 --> AwsBase109
+      AwsBase109{"Is your application integrated with the SPAQ to capture application metrics?"}
+      AwsBase109 --> AwsBase110
+      AwsBase110{"Have you identified recovery processes for each layer of your application?"}
+      AwsBase110 --> AwsBase111  %% Keep
+      AwsBase111{"Do all deployments in this project generate change orders when deploying to production?"}
+      AwsBase111 --> AwsBase112  %% Keep
+      AwsBase112{"Select all authentication systems the project is using:"}
+      AwsBase112 --> AwsBase113  %% Keep, but gate - base
+      AwsBase113{"Do all tools hosted in this account adhere to the Tool Security Standard in full?"}
+      AwsBase113 --> AwsST01000  %% Keep but gate - base
+
 
       %% AWS - Service Tier 1 or 0
       AwsST01000{"Is your service a Service Tier 0 or 1?"}
@@ -63,29 +84,33 @@ graph TD
       AwsST01004{How many concurrent users do you expect to have at peak time?}
       AwsST01004 --> AwsST01005
       AwsST01005{How are you proving your Business Continuity and Disaster Recovery Plan?}
-      AwsST01005 --> AwsData000  %% Gating questions on Service Tier 0/1
+      AwsST01005 --> AwsST01006  %% Gating questions on Service Tier 0/1
+      AwsST01006{"Do your CICD pipeline(s) utilized in this project require passing build, automated, and security tests including passing any security scans with no High/Critical vulnerabilities prior to deployment?"}
+      AwsST01006 --> AwsST01007  %% Service Tier 0/1
+      AwsST01007{"Which methods would be used in this project to double/half capacity?"}
+      AwsST01007 --> AwsData000  %% Service Tier 0/1 bucket
 
       %% AWS Data
       AwsData000{"Do you process or store data in your service?"}
-      AwsData000 -->|Yes| AwsData402
+      AwsData000 -->|Yes| AwsData002
       AwsData000 ---->|No| AwsWeb000
-      AwsData402{"For what purposes is data moved from Prod to Non-Prod environments?"}
-      AwsData402 --> AwsData404   %% Keep it
-      AwsData404{"Are all datastores compliant with all appropriate data retention policies?"}
-      AwsData404 --> AwsData405   %% Ask Brittany
-      AwsData405{"Is there a process in place to delete data that exceeds retention periods on at least a quarterly basis?"}
-      AwsData405 --> AwsData406   %% Ask Brittany
-      AwsData406{"What is your authentication model for accessing your database?"}
-      AwsData406 --> AwsData407   %% Keep it
-      AwsData407{Does your application store, process, and/or transmit P* data?}
-      AwsData407 -->|Yes| AwsData408
-      AwsData407 ---->|No| AwsWeb000
-      AwsData408{"Sensitive or P*I Data must be application layer encrypted, please choose which method you are using to do so"}
-      AwsData408 --> AwsData409  %% Keep it
-      AwsData409{"Is there a process to securely delete PII data upon request?"}
-      AwsData409 --> AwsWeb000   %% Keep it
-      AwsSec701{"How are you monitoring for unauthorized transfer of sensitive and/or p*i information across the network? (you should evaluate your application log metadata for indications of threat actor abuse of your application)"}
-      AwsSec701 --> AwsSec704 
+      AwsData002{"For what purposes is data moved from Prod to Non-Prod environments?"}
+      AwsData002 --> AwsData004   %% Keep it
+      AwsData004{"Are all datastores compliant with all appropriate data retention policies?"}
+      AwsData004 --> AwsData005   %% Ask Brittany
+      AwsData005{"Is there a process in place to delete data that exceeds retention periods on at least a quarterly basis?"}
+      AwsData005 --> AwsData006   %% Ask Brittany
+      AwsData006{"What is your authentication model for accessing your database?"}
+      AwsData006 --> AwsData007   %% Keep it
+      AwsData007{Does your application store, process, and/or transmit P* data?}
+      AwsData007 -->|Yes| AwsData008
+      AwsData007 ---->|No| AwsWeb000
+      AwsData008{"Sensitive or P*I Data must be application layer encrypted, please choose which method you are using to do so"}
+      AwsData008 --> AwsData009  %% Keep it
+      AwsData009{"Is there a process to securely delete PII data upon request?"}
+      AwsData009 --> AwsData010   %% Keep it
+      AwsData010{"How are you monitoring for unauthorized transfer of sensitive and/or p*i information across the network? (you should evaluate your application log metadata for indications of threat actor abuse of your application)"}
+      AwsData010 --> AwsWeb000
 
 
 
@@ -103,82 +128,13 @@ graph TD
       AwsWeb103 --> AwsAppDev000  %% Keep for now - further review.  Maybe move to on-prem and acq
 
 
-      %% AWS Applicaton Development
-      AwsAppDev000{"YET ANOTHER GATING QUESTION - Do you have any App Dev concers?"}
-      AwsAppDev000 -->|Yes| AwsAppDev201
-      AwsAppDev000 ---->|No| AwsArch000
-      AwsAppDev201{"Select all authentication systems the project is using:"}
-      AwsAppDev201 --> AwsAppDev209  %% Keep, but gate - base
-      AwsAppDev209{"Do all tools hosted in this account adhere to the Tool Security Standard in full?"}
-      AwsAppDev209 --> AwsArch000  %% Keep but gate - base
-
-      %% AWS Architecture
-      AwsArch000{"NEED GATING QUESTION - Do you have any Architecture concerns?"}
-      AwsArch000 -->|Yes| AwsArch300
-      AwsArch000 ---->|No| AwsOps000
-      AwsArch300{"Which methods would be used in this project to double/half capacity?"}
-      AwsArch300 --> AwsArch301  %% Service Tier 0/1 bucket
-      AwsArch301{"What are the traits that make up your service?"}
-      AwsArch301 --> AwsOps000  %% DELETE
-
-      %% Operations
-      AwsOps000{"NEED GATING QUESTION - ask them everyone?"}
-      AwsOps000 -->|Yes| AwsOps500
-      AwsOps000 ---->|No| AwsPriv000
-      AwsOps500{"Are all logs, monitors, and alerts configured in compliance with 'GoDaddy Monitoring Standard', and confirmed to be operating appropriately?"}
-      AwsOps500 --> AwsOps501
-      AwsOps501{"Is your application integrated with the SPAQ to capture application metrics?"}
-      AwsOps501 --> AwsOps502
-      AwsOps502{"Are you adhering to the Real User Monitoring standard?"}
-      AwsOps502 --> AwsOps503  %% DELETE
-      AwsOps503{"Have you identified recovery processes for each layer of your application?"}
-      AwsOps503 --> AwsOps504  %% Keep
-      AwsOps504{"Which parts of provisioning your infrastructure require manual steps and/or human intervention?"}
-      AwsOps504 --> AwsOps505  %% DELETE
-      AwsOps505{"Do all deployments in this project generate change orders when deploying to production?"}
-      AwsOps505 --> AwsOps506  %% Keep
-      AwsOps506{"Do all production changes follow the Godaddy Change Management Policy?"}
-      AwsOps506 --> AwsPriv000  %% DELETE
-
       %% Privacy and Compliance
       AwsPriv000{"NEED GATING QUESTION - Do you have Privacy or Compliance concerns?"}
       AwsPriv000 -->|Yes| AwsPriv600
       AwsPriv000 ---->|No| AwsSec000
       AwsPriv600{"Does this project utilize a separate account for payment processing?"}
       AwsPriv600 --> AwsPriv604
-      AwsPriv604{"Which of the following strategies do you apply for least privilege and zero trust?"}
-      AwsPriv604 --> AwsPriv605  %% Keep
-      AwsPriv605{"Is the system configured to issue a log entry when an account is added to or removed from any group assigned admin privileges?"}
-      AwsPriv605 --> AwsPriv606  %% DELETE
-      AwsPriv606{"Will there be any admin access to any production resource beyond Break-Glass Procedure?"}
-      AwsPriv606 --> AwsPriv607  %% Keep
-      AwsPriv607{"Reusable deployment artifacts are stored in:"}
-      AwsPriv607 --> AwsPriv608  %% DELETE
-      AwsPriv608{"Select all CI/CD methods utilized:"}
-      AwsPriv608 --> AwsPriv609  %% DELETE
-      AwsPriv609{"Which source code management systems are used?"}
-      AwsPriv609 --> AwsPriv610  %% DELETE
-      AwsPriv610{"How often do you upgrade your software/packages/libs or self-managed applications?"}
-      AwsPriv610 --> AwsPriv611  %% Keep
-      AwsPriv611{"What controls are in place to limit administrative access to the systems?"}
-      AwsPriv611 --> AwsPriv612  %% DELETE
-      AwsPriv612{"Do your CICD pipeline(s) utilized in this project require passing build, automated, and security tests including passing any security scans with no High/Critical vulnerabilities prior to deployment?"}
-      AwsPriv612 --> AwsPriv613  %% Service Tier 0/1
-      AwsPriv613{"Are there third-party or self-managed applications (libraries/dependencies) that will require patch management?"}
-      AwsPriv613 --> AwsSec000  %% DELETE 
 
-      %% Security
-      AwsSec000{"I NEED GATING QUESTION - Do you have any Security Concerns?"}
-      AwsSec000 -->|Yes| AwsSec700
-      AwsSec000 ---->|No| AwsML000
-      AwsSec700{"Is security logging applied to all systems and will it include application security logging for your production services prior to taking production traffic?"}
-      AwsSec700 --> AwsSec701  %% Keep - base
-      AwsSec704{"What is your rotation strategy for all compute resources?"}
-      AwsSec704 --> AwsSec706  %% DELETE
-      AwsSec706{"Will all unnecessary scripts, drivers, subsystems, library, dependencies, etc. be removed from systems in this project?"}
-      AwsSec706 --> AwsSec707  %% DELETE
-      AwsSec707{"Are you compliant with the Service Authentication Patterns Standard?"}
-      AwsSec707 --> AwsML000  %% DELETE
 
       %% Machine Learning
       AwsML000{"Will this project be using machine learning before your next readiness review?"}
