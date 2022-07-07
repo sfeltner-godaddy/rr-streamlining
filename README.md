@@ -175,7 +175,7 @@ graph TD
 
       OpST01000{"Is your service a Service Tier 0 or 1?"}
       OpST01000 -->|Yes| OpST01101
-      OpST01000 ---->|No| OpWeb000
+      OpST01000 ---->|No| OpData000
       OpST01101{"Do your CICD pipeline(s) utilized in this project require passing build, automated, and security tests including passing any security scans with no High/Critical vulnerabilities prior to deployment?"}
       OpST01101 --> OpData000
 
