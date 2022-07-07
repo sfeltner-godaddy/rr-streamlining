@@ -10,7 +10,7 @@ graph TD
 
     AWS --->|Yes| AwsBase000
     AWS ---->|No| OnPrem
-    OnPrem --->|Yes| OPBase000
+    OnPrem --->|Yes| OpBase000
     OnPrem -->|No| Acquisition
     Acquisition --->|Yes| AcqBase000
     Acquisition -->|No| End
