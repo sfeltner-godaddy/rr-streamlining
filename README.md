@@ -101,7 +101,7 @@ graph TD
       %% AWS Web Application
       AwsWeb000{"Does your service expose any UI or endpoints outside of your AWS accounts?"}  %% Reword
       AwsWeb000 -->|Yes| AwsWeb100
-      AwsWeb000 ---->|No| AwsPriv000
+      AwsWeb000 ---->|No| AwsML000
       AwsWeb100{How many requests per second will the most active endpoint receive?}
       AwsWeb100 --> AwsWeb101  %% DELETE all scaling related questions and defer to artifacts
       AwsWeb101{"Which of the following are used to protect the exposed interfaces?"}
@@ -109,7 +109,7 @@ graph TD
       AwsWeb102{"Select all domains this application will run on:"}
       AwsWeb102 --> AwsWeb103  %% Keep it
       AwsWeb103{"Web applications are utilizing the following CDNs for static assets: (check all that apply)"}
-      AwsWeb103 --> AwsPriv000  %% Keep for now - further review.  Maybe move to on-prem and acq
+      AwsWeb103 --> AwsML000  %% Keep for now - further review.  Maybe move to on-prem and acq
 
 
       %% Machine Learning
