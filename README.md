@@ -26,7 +26,7 @@ graph TD
       AwsBase000{Does your application adhere to all must haves in the Must Haves Should Dos?}
       AwsBase000 --> AwsBase101  %% Further review required
       AwsBase101{Which environments/accounts is this project expected to utilize?}
-      AwsBase101 --> AwsBase102  %% Keep it!  Keep it base
+      AwsBase101 --> AwsBase103  %% Keep it!  Keep it base
       AwsBase103{"Is everything you are using in ADOPT on TechRadar?"}
       AwsBase103 --> AwsBase104  %% Maybe base/general
       AwsBase104{"Is security logging applied to all systems and will it include application security logging for your production services prior to taking production traffic?"}
@@ -36,7 +36,7 @@ graph TD
       AwsBase106{"Will there be any admin access to any production resource beyond Break-Glass Procedure?"}
       AwsBase106 --> AwsBase107  %% Keep
       AwsBase107{"How often do you upgrade your software/packages/libs or self-managed applications?"}
-      AwsBase107 --> AwsBase108  %% Keep
+      AwsBase107 --> AwsBase109  %% Keep
       AwsBase109{"Is your application integrated with SPAQ to capture application metrics?"}
       AwsBase109 --> AwsBase110
       AwsBase110{"Have you identified recovery processes for each layer of your application?"}
@@ -237,12 +237,5 @@ graph TD
       AcqData101{"We have acquisition data questions for you!"}
       AcqData101 ---> AcqOps102
       AcqOps102{"We have acquisition Ops questions for you!"}
-
-      %% Privacy and Compliance
-      AwsPriv000{"NEED GATING QUESTION - Do you have Privacy or Compliance concerns?"}
-      AwsPriv000 -->|Yes| AwsPriv600
-      AwsPriv000 ---->|No| AwsML801
-      AwsPriv600{"Does this project utilize a separate account for payment processing?"}
-      AwsPriv600 --> AwsPriv604
     end
 ```
