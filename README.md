@@ -3,50 +3,30 @@
 ``` mermaid
 %%{init: { "flowchart": { "htmlLabels": true, "curve": "linear", "logLevel": 1 } } }%%
 graph TD
+    AWS{Is this project AWS based?}
     OnPrem{Is this project on-prem?}
     Acquisition{Is this project from an acquisition?}
-    AWS{Is this project AWS based?}
     End{end}
 
-    OnPrem --->|Yes| OPBase100
+    AWS --->|Yes| AwsBase000
+    AWS ---->|No| OnPrem
+    OnPrem --->|Yes| OPBase000
     OnPrem -->|No| Acquisition
-    Acquisition --->|Yes| AcqBase100
-    Acquisition -->|No| AWS
-    AWS --->|Yes| AwsBase100
-    AWS ---->|No| End
-    OPOps102 ----> End
+    Acquisition --->|Yes| AcqBase000
+    Acquisition -->|No| End
     AcqOps102 ----> End
     AwsML000 ---->|No| End
     AwsML806 --> End
-
-    subgraph OnpremG [OnPremG]
-      OPBase100{"We have on-prem questions for you!"}
-      OPBase100 ---> OPData101
-      OPData101{"We have on-prem data questions for you!"}
-      OPData101 ---> OPOps102
-      OPOps102{"We have on-prem Ops questions for you!"}
-    end
-
-    subgraph AcquisitionG [AcquisitionG]
-      AcqBase100{"We have acquisition questions for you!"}
-      AcqBase100 ---> AcqData101
-      AcqData101{"We have acquisition data questions for you!"}
-      AcqData101 ---> AcqOps102
-      AcqOps102{"We have acquisition Ops questions for you!"}
-    end
+    OpML000 ---->|No| End
+    OpML113 --> End
 
     %% AWS
     subgraph AWSG [AWSG]
-      %% Should we ask:
-      %% - Serverless?
-      %%
       %% AWS Base Questions - No gating question.
-      AwsBase100{Does your application adhere to all must haves in the Must Haves Should Dos?}
-      AwsBase100 --> AwsBase101  %% Further review required
+      AwsBase000{Does your application adhere to all must haves in the Must Haves Should Dos?}
+      AwsBase000 --> AwsBase101  %% Further review required
       AwsBase101{Which environments/accounts is this project expected to utilize?}
       AwsBase101 --> AwsBase102  %% Keep it!  Keep it base
-      AwsBase102{Please describe all end users of this project:}
-      AwsBase102 --> AwsBase103 %% Gate this with "Are there services im this account utilized by employees?""
       AwsBase103{"Is everything you are using in ADOPT on TechRadar?"}
       AwsBase103 --> AwsBase104  %% Maybe base/general
       AwsBase104{"Is security logging applied to all systems and will it include application security logging for your production services prior to taking production traffic?"}
@@ -57,18 +37,22 @@ graph TD
       AwsBase106 --> AwsBase107  %% Keep
       AwsBase107{"How often do you upgrade your software/packages/libs or self-managed applications?"}
       AwsBase107 --> AwsBase108  %% Keep
-      AwsBase108{"Are all logs, monitors, and alerts configured in compliance with 'GoDaddy Monitoring Standard', and confirmed to be operating appropriately?"}
-      AwsBase108 --> AwsBase109
-      AwsBase109{"Is your application integrated with the SPAQ to capture application metrics?"}
+      AwsBase109{"Is your application integrated with SPAQ to capture application metrics?"}
       AwsBase109 --> AwsBase110
       AwsBase110{"Have you identified recovery processes for each layer of your application?"}
       AwsBase110 --> AwsBase111  %% Keep
       AwsBase111{"Do all deployments in this project generate change orders when deploying to production?"}
       AwsBase111 --> AwsBase112  %% Keep
       AwsBase112{"Select all authentication systems the project is using:"}
-      AwsBase112 --> AwsBase113  %% Keep, but gate - base
-      AwsBase113{"Do all tools hosted in this account adhere to the Tool Security Standard in full?"}
-      AwsBase113 --> AwsST01000  %% Keep but gate - base
+      AwsBase112 --> AwsBase201  %% Keep, but gate - base
+
+      AwsBase201{"Will employees access this service as an internal tool?"}
+      AwsBase201 -->|Yes| AwsBase202
+      AwsBase201 -->|No| AwsST01000
+      AwsBase202{"Please describe all end users of this project:"}
+      AwsBase202 --> AwsBase203 %% Gate this with "Are there services im this account utilized by employees?""
+      AwsBase203{"Do all tools hosted in this account adhere to the Tool Security Standard in full?"}
+      AwsBase203 --> AwsST01000  %% Keep but gate - base
 
 
       %% AWS - Service Tier 1 or 0
@@ -128,14 +112,6 @@ graph TD
       AwsWeb103 --> AwsPriv000  %% Keep for now - further review.  Maybe move to on-prem and acq
 
 
-      %% Privacy and Compliance
-      AwsPriv000{"NEED GATING QUESTION - Do you have Privacy or Compliance concerns?"}
-      AwsPriv000 -->|Yes| AwsPriv600
-      AwsPriv000 ---->|No| AwsML801
-      AwsPriv600{"Does this project utilize a separate account for payment processing?"}
-      AwsPriv600 --> AwsPriv604
-
-
       %% Machine Learning
       AwsML000{"Will this project be using machine learning before your next readiness review?"}
       AwsML000 -->|Yes| AwsML801
@@ -150,5 +126,123 @@ graph TD
       AwsML805{"Do you automatically redeploy retrained models?"}
       AwsML805 --> AwsML806
       AwsML806{"What is your test coverage of model usage?"}
+    end
+
+
+    %% On-Prem Review questions
+    subgraph OnpremG [OnPremG]
+      %% On-prem Base Questions - No gating question.
+      OpBase000{"Does your application adhere to all must haves in the Must Haves Should Dos?"}
+      OpBase000 --> OpBase101
+      OpBase101{"Do you have a plan to migrate to AWS within the next 12 months?"}
+      OpBase101 ---> OpBase102
+      OpBase102{"Does your application adhere to all must haves in the Must Haves Should Dos?"}
+      OpBase102 ---> OpBase103
+      OpBase103{"Which datacenters or colocations will this project utilize?"}
+      OpBase103 ---> OpBase104
+      OpBase104{"Please describe all end users of this project:"}
+      OpBase104 ---> OpBase105
+      OpBase105{"Have all components been constructed in compliance with GoDaddy Software Development Policy?"}
+      OpBase105 ---> OpBase106
+      OpBase106{"Is everything you are using in ADOPT on TechRadar?"}
+      OpBase106 ---> OpBase107
+      OpBase107{"Is your application integrated with the SPAQ/Rigor platform to capture application metrics?"}
+      OpBase107 ---> OpBase108
+      OpBase108{"Have you identified recovery processes for each layer of your application?"}
+      OpBase108 ---> OpBase109
+      OpBase109{"Do all deployments in this project generate change orders when deploying to production?"}
+      OpBase109 ---> OpBase110
+      OpBase110{"Is all user access to servers managed by AD?"}
+      OpBase110 ---> OpBase111
+      OpBase111{"Reusable deployment artifacts are stored in:"}
+      OpBase111 ---> OpBase112
+      OpBase112{"Is all source code managed through GitHub Enterprise Cloud?"}
+      OpBase112 ---> OpBase113
+      OpBase113{"How often do you upgrade your software/packages/libs?"}
+      OpBase113 ---> OpBase114
+      OpBase114{"Is security logging applied to all systems and will it include application security logging?"}
+      OpBase114 ---> OpBase115
+      OpBase115{"Select all authentication systems the project is using:"}
+      OpBase115 ---> OpBase201
+
+      OpBase201{"Will employees access this service as an internal tool?"}
+      OpBase201 -->|Yes| OpBase202
+      OpBase201 -->|No| OpST01000
+      OpBase202{"Please describe all end users of this project:"}
+      OpBase202 --> OpBase203 %% Gate this with "Are there services im this account utilized by employees?""
+      OpBase203{"Do all tools hosted in this account adhere to the Tool Security Standard in full?"}
+      OpBase203 --> OpST01000  %% Keep but gate - base
+
+      OpST01000{"Is your service a Service Tier 0 or 1?"}
+      OpST01000 -->|Yes| OpST01101
+      OpST01000 ---->|No| OpWeb000
+      OpST01101{"Do your CICD pipeline(s) utilized in this project require passing build, automated, and security tests including passing any security scans with no High/Critical vulnerabilities prior to deployment?"}
+      OpST01101 --> OpData000
+
+      OpData000{"Do you process or store data in your service?"}
+      OpData000 -->|Yes| OpData101
+      OpData000 ---->|No| OpWeb000
+      OpData101{"For what purposes is data moved from Prod to Non-Prod environments?"}
+      OpData101 --> OpData102
+      OpData102{"Are all datastores compliant with all appropriate data retention policies?"}
+      OpData102 --> OpData103
+      OpData103{"Is there a process in place to delete data that exceeds retention periods on at least a quarterly basis?"}  %% Is this redundant?
+      OpData103 --> OpData104
+      OpData104{"What is your authentication model for accessing your database?"}
+      OpData104 --> OpData105
+      OpData105{"Does your application store, process, and/or transmit P data?"}
+      OpData105 --> OpData106
+      OpData106{"Is there a process to securely delete PII data upon request?"}
+      OpData106 --> OpWeb000
+
+      OpWeb000{"Does your service expose any UI or endpoints outside of your AWS accounts?"}  %% Reword
+      OpWeb000 -->|Yes| OpWeb101
+      OpWeb000 ---->|No| OpML000
+      OpWeb101{"Select all domains this application will run on:"}
+      OpWeb101 --> OpML000
+
+      OpML000{"Will this project be using machine learning before your next readiness review?"}
+      OpML000 -->|Yes| OpML101
+      OpML101{"Which of the following are used to protect any interface exposed outside of your AWS Accounts?"}
+      OpML101 --> OpML102
+      OpML102{"What is your rotation strategy for all compute resources?"}
+      OpML102 --> OpML103
+      OpML103{"Sensitive or P*I Data must be application layer encrypted, please choose which method you are using to do so"}
+      OpML103 --> OpML104
+      OpML104{"Will all unnecessary scripts, drivers, subsystems, library, dependencies, etc. be removed from systems in this project?"}
+      OpML104 --> OpML105
+      OpML105{"Are you compliant with the Service Authentication Patterns Standard?"}
+      OpML105 --> OpML106
+      OpML106{"Will this project be using machine learning before your next readiness review?"}
+      OpML106 --> OpML107
+      OpML107{"Do you have documented training data?"}
+      OpML107 --> OpML108
+      OpML108{"Which interactive notebooks are you using?"}
+      OpML108 --> OpML109
+      OpML109{"What is the code coverage for the data generation code?"}
+      OpML109 --> OpML110
+      OpML110{"Do you automatically retrain each model?"}
+      OpML110 --> OpML111
+      OpML111{"Do you automatically redeploy retrained models?"}
+      OpML111 --> OpML112
+      OpML112{"What is your test coverage of model usage?"}
+      OpML112 --> OpML113
+      OpML113{"What changes could we make to this readiness review process to improve it?"}
+    end
+
+    %% Acquisition Based Questions
+    subgraph AcquisitionG [AcquisitionG]
+      AcqBase000{"We have acquisition questions for you!"}
+      AcqBase000 ---> AcqData101
+      AcqData101{"We have acquisition data questions for you!"}
+      AcqData101 ---> AcqOps102
+      AcqOps102{"We have acquisition Ops questions for you!"}
+
+      %% Privacy and Compliance
+      AwsPriv000{"NEED GATING QUESTION - Do you have Privacy or Compliance concerns?"}
+      AwsPriv000 -->|Yes| AwsPriv600
+      AwsPriv000 ---->|No| AwsML801
+      AwsPriv600{"Does this project utilize a separate account for payment processing?"}
+      AwsPriv600 --> AwsPriv604
     end
 ```
