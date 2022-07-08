@@ -135,9 +135,7 @@ graph TD
       OpBase000{"Does your application adhere to all must haves in the Must Haves Should Dos?"}
       OpBase000 --> OpBase101
       OpBase101{"Do you have a plan to migrate to AWS within the next 12 months?"}
-      OpBase101 ---> OpBase102
-      OpBase102{"Does your application adhere to all must haves in the Must Haves Should Dos?"}
-      OpBase102 ---> OpBase103
+      OpBase101 ---> OpBase103
       OpBase103{"Which datacenters or colocations will this project utilize?"}
       OpBase103 ---> OpBase104
       OpBase104{"Please describe all end users of this project:"}
@@ -160,29 +158,34 @@ graph TD
       OpBase112 ---> OpBase113
       OpBase113{"How often do you upgrade your software/packages/libs?"}
       OpBase113 ---> OpBase114
+Do you have an active agent in place on each server to report on OS and package updates?
+Do you have an active agent in place on each server to perform OS and package updates?
       OpBase114{"Is security logging applied to all systems and will it include application security logging?"}
       OpBase114 ---> OpBase115
+
+%% Ask tis flow above in AWS
+      OpBase202{"Please describe all end users of this project:"}
+      OpBase202 --> OpBase203 %% Gate this with "Are there services im this account utilized by employees?""
       OpBase115{"Select all authentication systems the project is using:"}
       OpBase115 ---> OpBase201
+
 
       OpBase201{"Will employees access this service as an internal tool?"}
       OpBase201 -->|Yes| OpBase202
       OpBase201 -->|No| OpST01000
-      OpBase202{"Please describe all end users of this project:"}
-      OpBase202 --> OpBase203 %% Gate this with "Are there services im this account utilized by employees?""
       OpBase203{"Do all tools hosted in this account adhere to the Tool Security Standard in full?"}
       OpBase203 --> OpST01000  %% Keep but gate - base
 
       OpST01000{"Is your service a Service Tier 0 or 1?"}
       OpST01000 -->|Yes| OpST01101
       OpST01000 ---->|No| OpData000
-      OpST01101{"Do your CICD pipeline(s) utilized in this project require passing build, automated, and security tests including passing any security scans with no High/Critical vulnerabilities prior to deployment?"}
+      OpST01101{"Do your CICD pipeline(s) utilized in this project require passing build, automated, and security tests including passing vulnerability and fuzz testing scans with no High/Critical vulnerabilities prior to deployment?"}
       OpST01101 --> OpData000
 
       OpData000{"Do you process or store data in your service?"}
       OpData000 -->|Yes| OpData101
       OpData000 ---->|No| OpWeb000
-      OpData101{"For what purposes is data moved from Prod to Non-Prod environments?"}
+      OpData101{"Is data ever moved from Prod to Non-Prod environments?"}
       OpData101 --> OpData102
       OpData102{"Are all datastores compliant with all appropriate data retention policies?"}
       OpData102 --> OpData103
@@ -190,7 +193,7 @@ graph TD
       OpData103 --> OpData104
       OpData104{"What is your authentication model for accessing your database?"}
       OpData104 --> OpData105
-      OpData105{"Does your application store, process, and/or transmit P data?"}
+      OpData105{"Does your application store, process, and/or transmit P\* data?"}
       OpData105 --> OpData106
       OpData106{"Is there a process to securely delete PII data upon request?"}
       OpData106 --> OpWeb000
@@ -200,13 +203,11 @@ graph TD
       OpWeb000 ---->|No| OpML000
       OpWeb101{"Select all domains this application will run on:"}
       OpWeb101 --> OpML000
+      OpML101{"Which of the following are used to protect any interface?"}
+      OpML101 --> OpML102
 
       OpML000{"Will this project be using machine learning before your next readiness review?"}
       OpML000 -->|Yes| OpML101
-      OpML101{"Which of the following are used to protect any interface exposed outside of your AWS Accounts?"}
-      OpML101 --> OpML102
-      OpML102{"What is your rotation strategy for all compute resources?"}
-      OpML102 --> OpML103
       OpML103{"Sensitive or P*I Data must be application layer encrypted, please choose which method you are using to do so"}
       OpML103 --> OpML104
       OpML104{"Will all unnecessary scripts, drivers, subsystems, library, dependencies, etc. be removed from systems in this project?"}
